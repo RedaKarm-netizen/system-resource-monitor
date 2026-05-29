@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resource Monitor</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="logo">res<span>mon</span></div>
+        <div class="header-right">
+          <div class="uptime-badge">uptime <b id="uptime">—</b></div>
+          <div class="live-dot" title="Live"></div>
+        </div>
+      </header>
+
+      <div class="summary">
+        <div class="stat-card accent-green">
+          <div class="stat-label">CPU Usage</div>
+          <div class="stat-value" id="cpu-val">—</div>
+          <div class="stat-sub" id="cpu-sub">—</div>
+          <div class="gauge-wrap">
+            <svg class="gauge-svg" viewBox="0 0 52 52">
+              <circle cx="26" cy="26" r="20" class="gauge-track" />
+              <circle
+                cx="26"
+                cy="26"
+                r="20"
+                class="gauge-fill"
+                id="gauge-cpu"
+                transform="rotate(-90 26 26)"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat-card accent-blue">
+          <div class="stat-label">RAM Usage</div>
+          <div class="stat-value" id="mem-val">—</div>
+          <div class="stat-sub" id="mem-sub">—</div>
+          <div class="gauge-wrap">
+            <svg class="gauge-svg" viewBox="0 0 52 52">
+              <circle cx="26" cy="26" r="20" class="gauge-track" />
+              <circle
+                cx="26"
+                cy="26"
+                r="20"
+                class="gauge-fill gauge-blue"
+                id="gauge-mem"
+                transform="rotate(-90 26 26)"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat-card accent-purple">
+          <div class="stat-label">Processes</div>
+          <div class="stat-value" id="proc-val">—</div>
+          <div class="stat-sub" id="freq-sub">—</div>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <span class="panel-title">CPU Cores</span>
+            <span id="cpu-freq-badge" class="badge-info">—</span>
+          </div>
+          <div class="panel-body">
+            <div class="cores-grid" id="cores-grid"></div>
+            <div class="spark-wrap">
+              <canvas
+                id="cpu-spark"
+                role="img"
+                aria-label="CPU usage history"
+              ></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <span class="panel-title">Memory</span>
+            <span id="mem-total-badge" class="badge-info">—</span>
+          </div>
+          <div class="panel-body">
+            <div class="mem-row">
+              <div class="mem-row-head">
+                <span class="mem-row-label">RAM</span>
+                <span class="mem-row-val" id="mem-bar-label">—</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" id="mem-bar"></div>
+              </div>
+            </div>
+            <div class="mem-row" id="swap-row">
+              <div class="mem-row-head">
+                <span class="mem-row-label">Swap</span>
+                <span class="mem-row-val" id="swap-bar-label">—</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" id="swap-bar"></div>
+              </div>
+            </div>
+            <div class="spark-wrap">
+              <canvas
+                id="mem-spark"
+                role="img"
+                aria-label="Memory usage history"
+              ></canvas>
+            </div>
+            <table class="info-table" id="mem-info-table"></table>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-grid">
+        <div class="panel">
+          <div class="panel-head"><span class="panel-title">Disk</span></div>
+          <div class="panel-body" id="disk-list"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <span class="panel-title">Top Processes</span>
+            <span class="badge-info">by CPU</span>
+          </div>
+          <div class="panel-body">
+            <table class="proc-table">
+              <thead>
+                <tr>
+                  <th>Process</th>
+                  <th>PID</th>
+                  <th>CPU %</th>
+                  <th>MEM %</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="proc-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        resource monitor &mdash; live SSE stream &mdash; built with Flask +
+        psutil
+      </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <script src="{{ url_for('static', filename='js/monitor.js') }}"></script>
+  </body>
+</html>
