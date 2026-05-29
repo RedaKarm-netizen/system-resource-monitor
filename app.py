@@ -114,4 +114,4 @@ def stream():
 if __name__ == "__main__":
     import webbrowser
 webbrowser.open("http://localhost:5050")
-app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5050)))
+app.run(debug=True, port=5050)
